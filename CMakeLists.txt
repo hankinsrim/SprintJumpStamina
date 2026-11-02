@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 
 project(
 	SprintJumpStamina
-	VERSION 1.0.0
+	VERSION 1.0.1
 	DESCRIPTION "Charge stamina for sprint-jumps"
 	LANGUAGES CXX
 )

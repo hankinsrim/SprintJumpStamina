@@ -12,7 +12,7 @@ SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
 	}
 
 	const auto plugin = SKSE::GetPluginVersion();
-	logger::info("{} v{}.{} loading on Skyrim {}", SKSE::GetPluginName(), plugin.major(), plugin.minor(), REL::Module::get().version().string("."sv));
+	logger::info("{} v{}.{}.{} loading on Skyrim {}", SKSE::GetPluginName(), plugin.major(), plugin.minor(), plugin.patch(), REL::Module::get().version().string("."sv));
 
 	logger::info("Settings:");
 	auto& settings = Settings::Get();

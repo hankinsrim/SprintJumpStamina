@@ -46,6 +46,8 @@ if ($Lint) {
     # Analysis only reports while compiling, so recompile the plugin's sources every time.
     Remove-Item "build\$Preset\CMakeFiles\SprintJumpStamina.dir\src\*.obj" -ErrorAction SilentlyContinue
 }
+# Drop the last package so a zip of an older build can't be mistaken for this one.
+Remove-Item "build\package", "build\SprintJumpStamina-*.zip" -Recurse -Force -ErrorAction SilentlyContinue
 cmake --build --preset $Preset | Tee-Object -Variable buildOutput
 if ($LASTEXITCODE) { throw 'Build failed' }
 
@@ -67,8 +69,9 @@ if ($Lint) {
 }
 
 if ($Zip) {
-    $match = (Select-String -Path CMakeLists.txt -Pattern 'VERSION (\d+)\.(\d+)\.\d+').Matches[0]
+    $match = (Select-String -Path CMakeLists.txt -Pattern 'VERSION (\d+)\.(\d+)\.(\d+)').Matches[0]
     $version = "$($match.Groups[1].Value).$($match.Groups[2].Value)"
+    if ($match.Groups[3].Value -ne '0') { $version += ".$($match.Groups[3].Value)" }
     # MO2 reads the mod version from fomod\info.xml, otherwise it falls back to the file date.
     $stage = "$PSScriptRoot\build\package"
     Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
